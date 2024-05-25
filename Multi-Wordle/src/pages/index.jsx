@@ -1,4 +1,7 @@
-export default function App() {
+import '../styles/index.css';
+import '../styles/universal.css';
+
+export default function Home() {
 
   return <div id="main">
 
