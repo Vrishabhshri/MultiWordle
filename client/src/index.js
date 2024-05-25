@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 
 // Importing pages
 
-import Home from "./pages/index.jsx";
+import Home from "./pages/home.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

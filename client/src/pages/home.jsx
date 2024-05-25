@@ -1,5 +1,5 @@
 import "../styles/universal.css";
-import "../styles/index.css";
+import "../styles/home.css";
 import React from 'react';
 
 export default function Home() {
