@@ -12,6 +12,7 @@ import {
 
 import Home from "./pages/home.jsx";
 import WaitingRoom from './pages/waiting-room.jsx';
+import GuesserBoard from './pages/guesser-board.jsx';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/waiting-room",
     element: <WaitingRoom />,
+  },
+  {
+    path: "/guesser-board",
+    element: <GuesserBoard />,
   },
 ]);
 
