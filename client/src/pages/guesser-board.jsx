@@ -1,11 +1,18 @@
 import React from 'react'
 import Board from '../components/board';
+import Keyboard from '../components/keyboard';
 
 function GuesserBoard() {
 
   return (
 
-    <Board rows={6} columns={5}></Board>
+    <div id="main">
+
+        <Board rows={6} columns={5}></Board>
+
+        <Keyboard></Keyboard>
+
+    </div>
 
   );
 

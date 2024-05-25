@@ -7,33 +7,26 @@ function Board({ rows, columns }) {
 
   return (
     
-    <div id="main">
 
-      <div id="wordle-container">
+    <div id="wordle-container">
 
-        {board.map((row, rowIndex) => (
+    {board.map((row, rowIndex) => (
 
-          <div key={rowIndex} className="wordle-row">
+        <div key={rowIndex} className="wordle-row">
 
-            {row.map((col, colIndex) => (
+        {row.map((col, colIndex) => (
 
-              <div key={colIndex} className="wordle-box">
+            <div key={colIndex} className="wordle-box">
 
-                {col}
+            {col}
 
-              </div>
-
-            ))}
-
-          </div>
+            </div>
 
         ))}
 
-      </div>
+        </div>
 
-      <div id="keyboard">
-
-      </div>
+    ))}
 
     </div>
 

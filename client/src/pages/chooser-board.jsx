@@ -1,19 +1,13 @@
-import React from 'react';
-// import
+import React from 'react'
+import Board from '../components/board';
 
 function ChooserBoard() {
 
   return (
-    
+
     <div id="main">
 
-        <div id="wordle-container">
-
-        </div>
-
-        <div id="keyboard">
-
-        </div>
+        <Board rows={1} columns={5}></Board>
 
     </div>
 
