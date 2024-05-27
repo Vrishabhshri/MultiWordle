@@ -1,8 +1,15 @@
 import "../styles/universal.css";
 import "../styles/home.css";
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+
+    const navigate = useNavigate();
+
+    const handlePlayButtonClick = () => {
+        navigate('/waiting-room');
+      };
 
     return (
 
@@ -30,7 +37,7 @@ export default function Home() {
 
             </div>
             
-            <button id="play-button">Play</button>
+            <button id="play-button" onClick={handlePlayButtonClick}>Play</button>
 
             <div id="enter-code">
 

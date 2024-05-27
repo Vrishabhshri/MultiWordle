@@ -1,11 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Board from '../components/board';
 import Keyboard from '../components/keyboard';
 
 function GuesserBoard() {
-
-  let currentRow = 0;
-  let currentCol = 0;
 
   return (
 
