@@ -1,9 +1,52 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "../styles/board.css";
 
 function Board({ rows, columns }) {
 
-  const [board, setBoard] = useState(Array.from(Array(rows), () => new Array(columns).fill('')));
+  let currRow = 0;
+  let currCol = 0;
+
+  let [board, setBoard] = useState(Array.from(Array(rows), () => new Array(columns).fill('')));
+
+  const addLetter = (letter) => {
+
+    if (currCol < 5) {
+
+      let newBoard = board.map(row => [...row]);
+      newBoard[currRow][currCol] = letter;
+
+      setBoard(newBoard);
+      board = newBoard;
+
+      currCol++;
+
+    }
+
+  }
+
+  const deleteLetter = (letter) => {
+
+    
+
+  }
+
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.code === `Key${e.key.toUpperCase()}`){
+        
+        console.log(e.key);
+        addLetter(e.key.toUpperCase());
+
+      }
+
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return function cleanup() {
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, []);
 
   return (
     
