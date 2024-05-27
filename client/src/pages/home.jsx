@@ -2,14 +2,32 @@ import "../styles/universal.css";
 import "../styles/home.css";
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import io from 'socket.io-client';
+const socket = io.connect("http://localhost:3001");
 
 export default function Home() {
 
     const navigate = useNavigate();
 
     const handlePlayButtonClick = () => {
+
         navigate('/waiting-room');
-      };
+        
+    }
+
+    const generateRoomID = () => {
+
+        return "XXVBHG";
+
+    }
+
+    const createRoom = () => {
+
+        let ID = generateRoomID();
+
+        
+
+    }
 
     return (
 
