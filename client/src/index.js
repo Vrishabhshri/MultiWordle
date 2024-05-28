@@ -30,7 +30,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/chooser-board",
-    element: <GuesserBoard />,
+    element: <ChooserBoard />,
   },
 ]);
 
