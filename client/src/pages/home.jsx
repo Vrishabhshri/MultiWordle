@@ -93,10 +93,8 @@ export default function Home() {
 
             </div>
 
-            <input id="enter-code-input" type="text" value={inputValue} onChange={handleInputChange}/>
-
-            <a href="guesser-board.html">Guesser</a>
-            <a href="chooser-board.html">Chooser</a>
+            <input id="enter-code-input" type="text" value={inputValue} onChange={handleInputChange} placeholder="Create room"/>
+            <div id="input-text">Leave blank to create room</div>
 
         </div>
 
