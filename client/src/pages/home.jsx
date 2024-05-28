@@ -92,7 +92,7 @@ export default function Home() {
 
             </div>
 
-            <input id="enter-name-input" type="text" placeholder="Create room" value={nameValue} onChange={handleNameChange}/>
+            <input id="enter-name-input" class="input-box" type="text" placeholder="Create room" value={nameValue} onChange={handleNameChange}/>
             
             <button id="play-button" onClick={handlePlayButtonClick}>Play</button>
 
@@ -102,7 +102,7 @@ export default function Home() {
 
             </div>
 
-            <input id="enter-code-input" type="text" value={IDValue} onChange={handleIDChange} placeholder="Create room"/>
+            <input id="enter-code-input" class="input-box" type="text" value={IDValue} onChange={handleIDChange} placeholder="Create room"/>
             <div id="input-text">Leave blank to create room</div>
 
         </div>
