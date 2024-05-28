@@ -1,17 +1,40 @@
 import React, { useState } from 'react';
 import "../styles/waiting-room.css";
 import io from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
 const socket = io.connect("http://localhost:3001");
 
 function WaitingRoom() {
 
   const [codeValue, setCodeValue] = useState('');
   const [players, setPlayers] = useState([]);
+  const navigate = useNavigate();
   
   socket.on('load-room-data', (data) => {
-      setCodeValue(data.roomID);
-      setPlayers(data.players);
+
+    setCodeValue(data.roomID);
+    setPlayers(data.players);
+
+    showReadyButton();
+
   });
+
+  const showReadyButton = () => {
+
+
+
+  }
+
+  const handleReadyButtonClick = () => {
+
+    socket.on('decider', (chosenID) => {
+
+      if (chosenID === socket.id) navigate('/chooser-board');
+      else navigate ('/guesser-board');
+
+    })
+
+  }
 
   return (
 
@@ -31,13 +54,17 @@ function WaitingRoom() {
 
         <div id="players-box">
 
+          <div id="players-title">Players: </div>
+
           {players.map(player => (
 
-            <div id="player-box" key="player">{player}</div>
+            <div className="player" key="player">{player}</div>
 
           ))}
 
         </div>
+
+        <button id="play-button" onClick={handleReadyButtonClick}>Play</button>
 
     </div>
 

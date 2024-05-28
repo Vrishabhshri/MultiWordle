@@ -21,3 +21,21 @@
     font-weight: bold;
 
 }
+
+#players-title {
+
+    /* text */
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    /* position */
+    margin: 0px 0px 10px 0px;
+
+}
+
+.player {
+
+    /* text */
+    font-size: 1.2rem;
+
+}
