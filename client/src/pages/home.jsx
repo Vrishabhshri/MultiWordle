@@ -8,11 +8,12 @@ const socket = io.connect("http://localhost:3001");
 export default function Home() {
 
     const navigate = useNavigate();
-    const [inputValue, setInputValue] = useState('');
+    const [IDValue, setIDValue] = useState('');
+    const [nameValue, setNameValue] = useState('');
 
     const handlePlayButtonClick = () => {
 
-        handleRoom();
+        handleRoom(nameValue);
         navigate('/waiting-room');
         
     }
@@ -23,19 +24,19 @@ export default function Home() {
 
     }
 
-    const createRoom = () => {
+    const createRoom = (name) => {
 
         let ID = generateRoomID();
 
-        socket.emit('create-room', ID);
+        socket.emit('create-room', { ID, name });
 
     }
 
-    const joinRoom = (ID) => {
+    const joinRoom = (ID, name) => {
 
         if (ID.length === 6) {
 
-            socket.emit('join-room', ID);
+            socket.emit('join-room', { ID, name });
 
         }
         else {
@@ -46,16 +47,22 @@ export default function Home() {
 
     }
 
-    const handleRoom = () => {
+    const handleRoom = (name) => {
 
-        if (inputValue.trim() === '') createRoom();
-        else joinRoom(inputValue.trim());
+        if (IDValue.trim() === '') createRoom(name);
+        else joinRoom(IDValue.trim(), name);
 
     }
 
-    const handleInputChange = (e) => {
+    const handleIDChange = (e) => {
 
-        setInputValue(e.target.value);
+        setIDValue(e.target.value);
+
+    };
+
+    const handleNameChange = (e) => {
+
+        setNameValue(e.target.value);
 
     };
 
@@ -84,6 +91,8 @@ export default function Home() {
                 The game is like world and other instructions will go here...
 
             </div>
+
+            <input id="enter-name-input" type="text" placeholder="Create room" value={nameValue} onChange={handleNameChange}/>
             
             <button id="play-button" onClick={handlePlayButtonClick}>Play</button>
 
@@ -93,7 +102,7 @@ export default function Home() {
 
             </div>
 
-            <input id="enter-code-input" type="text" value={inputValue} onChange={handleInputChange} placeholder="Create room"/>
+            <input id="enter-code-input" type="text" value={IDValue} onChange={handleIDChange} placeholder="Create room"/>
             <div id="input-text">Leave blank to create room</div>
 
         </div>
