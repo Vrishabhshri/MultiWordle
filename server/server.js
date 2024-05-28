@@ -22,45 +22,42 @@ const rooms = [];
 
 io.on('connection', socket => {
 
-    // socket.on('create-room', (ID) => {
+    // Creating a room
 
-    //     io.emit('get-room-id', ID);
-    //     rooms[ID] = [socket.id];
-    //     // console.log(rooms);
+    socket.on('create-room', (info) => {
 
-    //     socket.emit('load-player', socket.id);
-    
-    // });
+        // Creating a new room in database and initializing it with player info
+        rooms[info.roomID] = [{id: 1, name: info.name, ready: false}];
+        socket.join(info.roomID);
 
-    // socket.on('join-room', ID => {
-
-    //     if (Object.keys(rooms).includes(ID)) {
-
-    //         io.emit('get-room-id', ID);
-    //         rooms[ID].push(socket.id);
-    //         // console.log(rooms);
-
-    //         socket.emit('load-player', socket.id);
-
-    //     }
-
-    // })
-
-    socket.on('create-room', (gameInfo) => {
-        rooms[gameInfo.ID] = [{id: socket.id, name: gameInfo.name}];
-        socket.join(gameInfo.ID);
-        io.emit('load-room-data', { roomID: gameInfo.ID, players: rooms[gameInfo.ID].map(player => player.name) });
+        
+        
+        // Sending room ID and player info back to client to display on their waiting room
+        io.emit('load-room-data', { roomID: info.roomID, players: rooms[info.roomID].map(player => player.name) });
     });
 
-    socket.on('join-room', (gameInfo) => {
-        if (rooms[gameInfo.ID]) {
-            socket.join(gameInfo.ID);
-            rooms[gameInfo.ID].push({id: socket.id, name: gameInfo.name})
-            io.emit('load-room-data', { roomID: gameInfo.ID, players: rooms[gameInfo.ID].map(player => player.name) });
+    // Joining a room
+
+    socket.on('join-room', (info) => {
+
+        // Checking to see if room exists
+        if (rooms[info.roomID]) {
+
+            // Joining the room
+            socket.join(info.roomID);
+            rooms[info.roomID].push({id: socket.id, name: info.name, ready: false});
+
+            // Sending room ID and player info back to client to display on their waiting room
+            io.emit('load-room-data', { roomID: info.roomID, players: rooms[info.roomID].map(player => player.name) });
         } else {
+
+            // Alerting if room is not found
             console.log('Room not found');
+
         }
     });
+
+    
 
     socket.on('disconnect', () => {
         // Handle player disconnect

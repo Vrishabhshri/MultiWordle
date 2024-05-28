@@ -27,12 +27,7 @@ function WaitingRoom() {
 
   const handleReadyButtonClick = () => {
 
-    socket.on('decider', (chosenID) => {
-
-      if (chosenID === socket.id) navigate('/chooser-board');
-      else navigate ('/guesser-board');
-
-    })
+    
 
   }
 
