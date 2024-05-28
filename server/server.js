@@ -46,17 +46,17 @@ io.on('connection', socket => {
 
     // })
 
-    socket.on('create-room', (roomID) => {
-        rooms[roomID] = [socket.id];
-        socket.join(roomID);
-        io.emit('load-room-data', { roomID, players: rooms[roomID] });
+    socket.on('create-room', (gameInfo) => {
+        rooms[gameInfo.ID] = [{id: socket.id, name: gameInfo.name}];
+        socket.join(gameInfo.ID);
+        io.emit('load-room-data', { roomID: gameInfo.ID, players: rooms[gameInfo.ID].map(player => player.name) });
     });
 
-    socket.on('join-room', (roomID) => {
-        if (rooms[roomID]) {
-            socket.join(roomID);
-            rooms[roomID].push(socket.id)
-            io.emit('load-room-data', { roomID, players: rooms[roomID] });
+    socket.on('join-room', (gameInfo) => {
+        if (rooms[gameInfo.ID]) {
+            socket.join(gameInfo.ID);
+            rooms[gameInfo.ID].push({id: socket.id, name: gameInfo.name})
+            io.emit('load-room-data', { roomID: gameInfo.ID, players: rooms[gameInfo.ID].map(player => player.name) });
         } else {
             console.log('Room not found');
         }

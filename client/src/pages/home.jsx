@@ -26,17 +26,17 @@ export default function Home() {
 
     const createRoom = (name) => {
 
-        let ID = generateRoomID();
+        let roomID = generateRoomID();
 
-        socket.emit('create-room', { ID, name });
+        socket.emit('create-room', { roomID, name });
 
     }
 
-    const joinRoom = (ID, name) => {
+    const joinRoom = (roomID, name) => {
 
-        if (ID.length === 6) {
+        if (roomID.length === 6) {
 
-            socket.emit('join-room', { ID, name });
+            socket.emit('join-room', { roomID, name });
 
         }
         else {
@@ -92,7 +92,7 @@ export default function Home() {
 
             </div>
 
-            <input id="enter-name-input" class="input-box" type="text" placeholder="Create room" value={nameValue} onChange={handleNameChange}/>
+            <input id="enter-name-input" className="input-box" type="text" value={nameValue} onChange={handleNameChange} placeholder="Enter name"/>
             
             <button id="play-button" onClick={handlePlayButtonClick}>Play</button>
 
@@ -102,7 +102,7 @@ export default function Home() {
 
             </div>
 
-            <input id="enter-code-input" class="input-box" type="text" value={IDValue} onChange={handleIDChange} placeholder="Create room"/>
+            <input id="enter-code-input" className="input-box" type="text" value={IDValue} onChange={handleIDChange} placeholder="Create room"/>
             <div id="input-text">Leave blank to create room</div>
 
         </div>
