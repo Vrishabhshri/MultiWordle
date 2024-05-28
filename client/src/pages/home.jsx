@@ -1,6 +1,6 @@
 import "../styles/universal.css";
 import "../styles/home.css";
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 const socket = io.connect("http://localhost:3001");
@@ -8,9 +8,11 @@ const socket = io.connect("http://localhost:3001");
 export default function Home() {
 
     const navigate = useNavigate();
+    const [inputValue, setInputValue] = useState('');
 
     const handlePlayButtonClick = () => {
 
+        handleRoom();
         navigate('/waiting-room');
         
     }
@@ -25,9 +27,37 @@ export default function Home() {
 
         let ID = generateRoomID();
 
-        
+        socket.emit('create-room', ID);
 
     }
+
+    const joinRoom = (ID) => {
+
+        if (ID.length === 6) {
+
+            socket.emit('join-room', ID);
+
+        }
+        else {
+
+            console.log('Enter valid ID');
+
+        }
+
+    }
+
+    const handleRoom = () => {
+
+        if (inputValue.trim() === '') createRoom();
+        else joinRoom();
+
+    }
+
+    const handleInputChange = (e) => {
+
+        setInputValue(e.target.value);
+
+    };
 
     return (
 
@@ -63,7 +93,7 @@ export default function Home() {
 
             </div>
 
-            <input id="enter-code-input" type="text"/>
+            <input id="enter-code-input" type="text" value={inputValue} onChange={handleInputChange}/>
 
             <a href="guesser-board.html">Guesser</a>
             <a href="chooser-board.html">Chooser</a>
