@@ -28,7 +28,6 @@ export default function Home() {
         let ID = generateRoomID();
 
         socket.emit('create-room', ID);
-        socket.join(ID);
 
     }
 
@@ -37,7 +36,6 @@ export default function Home() {
         if (ID.length === 6) {
 
             socket.emit('join-room', ID);
-            socket.join(ID);
 
         }
         else {
