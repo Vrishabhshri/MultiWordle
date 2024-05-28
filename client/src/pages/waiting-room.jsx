@@ -5,13 +5,18 @@ const socket = io.connect("http://localhost:3001");
 
 function WaitingRoom() {
 
-  let ID;
   const [codeValue, setCodeValue] = useState('');
+  const players = [];
 
-  socket.on('get-room-id', id => {
+  socket.on('get-room-id', ID => {
 
-    ID = id;
     setCodeValue(ID);
+
+  });
+
+  socket.on('load-player', player => {
+
+    players.push(player);
 
   });
 
@@ -33,7 +38,11 @@ function WaitingRoom() {
 
         <div id="players-box">
 
-            
+          {players.map(player => (
+
+            <div id="player-box">{player.name}</div>
+
+          ))};
 
         </div>
 

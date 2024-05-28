@@ -49,7 +49,7 @@ export default function Home() {
     const handleRoom = () => {
 
         if (inputValue.trim() === '') createRoom();
-        else joinRoom();
+        else joinRoom(inputValue.trim());
 
     }
 

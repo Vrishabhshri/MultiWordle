@@ -16,6 +16,8 @@ const io = new Server(server, {
     
 });
 
+const rooms = [];
+
 // Room handling
 
 io.on('connection', socket => {
@@ -23,8 +25,26 @@ io.on('connection', socket => {
     socket.on('create-room', (ID) => {
 
         io.emit('get-room-id', ID);
+        rooms[ID] = [socket.id];
+        console.log(rooms);
+
+        socket.emit('load-player', socket.id);
     
     });
+
+    socket.on('join-room', ID => {
+
+        if (Object.keys(rooms).includes(ID)) {
+
+            io.emit('get-room-id', ID);
+            rooms[ID].push(socket.id);
+            console.log(rooms);
+
+            socket.emit('load-player', socket.id);
+
+        }
+
+    })
 
 });
 
