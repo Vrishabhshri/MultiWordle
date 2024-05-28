@@ -15,21 +15,7 @@ function WaitingRoom() {
     setCodeValue(data.roomID);
     setPlayers(data.players);
 
-    showReadyButton();
-
   });
-
-  const showReadyButton = () => {
-
-
-
-  }
-
-  const handleReadyButtonClick = () => {
-
-    
-
-  }
 
   return (
 
@@ -59,7 +45,7 @@ function WaitingRoom() {
 
         </div>
 
-        <button id="play-button" onClick={handleReadyButtonClick}>Play</button>
+        <button id="play-button">Play</button>
 
     </div>
 
