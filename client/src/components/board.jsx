@@ -44,6 +44,8 @@ function Board({ rows, columns, chosenWord }) {
 
   const wordLengthValid = useCallback(() => {
 
+    console.log(currCol.current);
+
     if (currCol.current < 5) return false;
     else return true;
 

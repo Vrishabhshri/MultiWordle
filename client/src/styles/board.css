@@ -44,19 +44,19 @@
 
 }
 
-.yellow-box {
+.wordle-box.yellow {
 
     background-color: yellow;
 
 }
 
-.green-box {
+.wordle-box.green {
 
     background-color: green;
 
 }
 
-.gray-box {
+.wordle-box.gray {
 
     background-color: gray;
 
