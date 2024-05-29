@@ -44,8 +44,6 @@ function Board({ rows, columns, chosenWord }) {
 
   const wordLengthValid = useCallback(() => {
 
-    console.log(currCol.current);
-
     if (currCol.current < 5) return false;
     else return true;
 
@@ -131,7 +129,7 @@ function Board({ rows, columns, chosenWord }) {
 
       if (wordLengthValid()) {
         
-        console.log("valid word");
+
 
       }
       else console.log("need to enter a valid word");
