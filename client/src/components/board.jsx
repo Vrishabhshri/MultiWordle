@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import "../styles/board.css";
 
-function Board({ rows, columns }) {
+function Board({ rows, columns, chosenWord }) {
 
   let currRow = useRef(0);
   let currCol = useRef(0);
@@ -45,29 +45,72 @@ function Board({ rows, columns }) {
 
   }, [currCol]);
 
+  const handleLetter = (e) => {
+
+    if (e.code === `Key${e.key.toUpperCase()}`){
+        
+      addLetter(e.key.toUpperCase());
+
+    }
+    else if (e.code === 'Backspace') {
+
+      deleteLetter();
+
+    }
+    else if (e.code === 'Enter') {
+
+      if (wordLengthValid()) {
+        
+        console.log("valid word");
+
+      }
+      else console.log("need to enter a valid word");
+
+      checkMatch();
+
+    }
+  };
+
+  const checkMatch = () => {
+
+    let row = currRow.current;
+
+    for (let i = 0; i < board[row].length; i++) {
+
+      // Add implementation to only show letters yellow once if they are only in the word once
+
+      if (board[row][i] === chosenWord[i]) {
+
+        // Add green class to box
+
+      } else if (chosenWord.includes(board[row][i])) {
+
+        // Add yellow class to box
+
+      } else {
+
+        // Add gray class
+
+      }
+
+    }
+
+    if (currRow.current < 5) {
+
+      currRow.current++;
+      currCol.current = 0;
+
+    }
+    else { 
+      // Output that you lost 
+    }
+
+  };
+
   useEffect(() => {
     function handleKeyDown(e) {
-      // console.log(e.code);
-      if (e.code === `Key${e.key.toUpperCase()}`){
-        
-        addLetter(e.key.toUpperCase());
 
-      }
-      else if (e.code === 'Backspace') {
-
-        deleteLetter();
-
-      }
-      else if (e.code === 'Enter') {
-
-        if (wordLengthValid()) {
-          
-          console.log("valid word");
-
-        }
-        else console.log("need to enter a valid word");
-
-      }
+      handleLetter(e);
 
     }
 

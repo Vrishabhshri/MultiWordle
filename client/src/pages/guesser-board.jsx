@@ -8,7 +8,7 @@ function GuesserBoard() {
 
     <div id="main">
 
-        <Board rows={6} columns={5}></Board>
+        <Board rows={6} columns={5} chosenWord={"HELLO"}></Board>
 
         <Keyboard></Keyboard>
 
