@@ -6,14 +6,18 @@ function Board({ rows, columns, chosenWord }) {
   let currRow = useRef(0);
   let currCol = useRef(0);
 
-  let [board, setBoard] = useState(Array.from(Array(rows), () => new Array(columns).fill('')));
+  let [board, setBoard] = useState(
+    Array.from(Array(rows), () =>
+      Array.from(Array(columns), () => ({ letter: '', status: '' }))
+    )
+  );
 
   const addLetter = useCallback((letter) => {
 
     if (currCol.current <= 4) {
 
       let newBoard = board.map(row => [...row]);
-      newBoard[currRow.current][currCol.current] = letter;
+      newBoard[currRow.current][currCol.current].letter = letter;
 
       currCol.current++;
 
@@ -28,7 +32,7 @@ function Board({ rows, columns, chosenWord }) {
     if (currCol.current-1 >= 0) {
 
       let newBoard = board.map(row => [...row]);
-      newBoard[currRow.current][currCol.current-1] = '';
+      newBoard[currRow.current][currCol.current-1].letter = '';
 
       setBoard(newBoard);
 
@@ -45,7 +49,71 @@ function Board({ rows, columns, chosenWord }) {
 
   }, [currCol]);
 
-  const handleLetter = (e) => {
+  const checkMatch = useCallback(() => {
+
+    let row = currRow.current;
+    let newBoard = board.map(row => [...row]);
+
+    // Keeping track of letter count to ensure more than required yellows are not shown
+
+    let letterCount = {};
+
+    for (let i = 0; i < newBoard[row].length; i++) {
+
+      letterCount[newBoard[row][i].letter] = (letterCount[newBoard[row][i].letter] || 0) + 1;
+
+    }
+
+    // First pass to check for green letters
+
+    for (let i = 0; i < newBoard[row].length; i++) {
+
+      if (newBoard[row][i].letter === chosenWord[i]) {
+
+        newBoard[row][i].status = 'green';
+        letterCount[newBoard[row][i].letter]--;
+
+      }
+
+    }
+
+    // Second pass to check for yellow and gray letters
+
+    for (let i = 0; i < newBoard[row].length; i++) {
+
+      if (newBoard[row][i].status === '') {
+
+        if (chosenWord.includes(newBoard[row][i].letter) && letterCount[newBoard[row][i].letter] > 0) {
+
+          newBoard[row][i].status = 'yellow';
+          letterCount[newBoard[row][i].letter]--;
+  
+        }
+        else {
+  
+          newBoard[row][i].status = 'gray';
+  
+        }
+
+      }
+
+    }
+
+    setBoard(newBoard);
+
+    if (currRow.current < 5) {
+
+      currRow.current++;
+      currCol.current = 0;
+
+    }
+    else { 
+      // Output that you lost 
+    }
+
+  }, [currCol, currRow, board, chosenWord]);
+
+  const handleLetter = useCallback((e) => {
 
     if (e.code === `Key${e.key.toUpperCase()}`){
         
@@ -69,43 +137,7 @@ function Board({ rows, columns, chosenWord }) {
       checkMatch();
 
     }
-  };
-
-  const checkMatch = () => {
-
-    let row = currRow.current;
-
-    for (let i = 0; i < board[row].length; i++) {
-
-      // Add implementation to only show letters yellow once if they are only in the word once
-
-      if (board[row][i] === chosenWord[i]) {
-
-        // Add green class to box
-
-      } else if (chosenWord.includes(board[row][i])) {
-
-        // Add yellow class to box
-
-      } else {
-
-        // Add gray class
-
-      }
-
-    }
-
-    if (currRow.current < 5) {
-
-      currRow.current++;
-      currCol.current = 0;
-
-    }
-    else { 
-      // Output that you lost 
-    }
-
-  };
+  }, [addLetter, deleteLetter, checkMatch, wordLengthValid]);
 
   useEffect(() => {
     function handleKeyDown(e) {
@@ -119,22 +151,21 @@ function Board({ rows, columns, chosenWord }) {
     return function cleanup() {
       document.removeEventListener('keydown', handleKeyDown);
     }
-  }, [addLetter, deleteLetter, wordLengthValid]);
+  }, [handleLetter]);
 
   return (
     
-
     <div id="wordle-container">
 
     {board.map((row, rowIndex) => (
 
         <div key={rowIndex} className="wordle-row">
 
-        {row.map((col, colIndex) => (
+        {row.map((box, colIndex) => (
 
-            <div key={colIndex} className="wordle-box">
+            <div key={`${rowIndex}-${colIndex}`} className={`wordle-box ${box.status}`}>
 
-            {col}
+            {box.letter}
 
             </div>
 
