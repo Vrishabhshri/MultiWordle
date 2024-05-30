@@ -3,7 +3,7 @@ import "../styles/board.css";
 import { useNavigate } from 'react-router-dom';
 import socketInstance from '../scripts/websocket';
 
-function Board2({ rows, columns }) {
+function Board({ rows, columns }) {
 
   const navigate = useNavigate();  
   let currRow = useRef(0);
@@ -158,4 +158,4 @@ function Board2({ rows, columns }) {
 
 }
 
-export default Board2;
+export default Board;

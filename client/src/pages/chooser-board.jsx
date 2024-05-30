@@ -1,5 +1,5 @@
 import React from 'react'
-import Board2 from '../components/chooser-board.jsx';
+import Board from '../components/chooser-board.jsx';
 import Keyboard from '../components/keyboard';
 
 function ChooserBoard() {
@@ -8,7 +8,7 @@ function ChooserBoard() {
 
     <div id="main">
 
-        <Board2 rows={1} columns={5}></Board2>
+        <Board rows={1} columns={5}></Board>
 
         <Keyboard></Keyboard>
 
