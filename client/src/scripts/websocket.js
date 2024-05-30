@@ -7,7 +7,7 @@ class WebSocket {
 
     // Check if an instance already exists
     if (!WebSocket.instance) {
-        
+
       // Initialize the socket connection
       this.#socket = io.connect('http://localhost:3001');
 
@@ -34,23 +34,38 @@ class WebSocket {
 
   // Method to get the socket instance
   getSocket() {
+
     return this.#socket;
+
   }
 
   // Method to emit events
   emit(event, data) {
+
     this.#socket.emit(event, data);
+
   }
 
   // Method to listen for events
   on(event, callback) {
+
     this.#socket.on(event, callback);
+    
   }
 
   // Method to remove event listeners
   off(event, callback) {
+
     this.#socket.off(event, callback);
+
   }
+
+  removeAll(event) {
+
+    this.#socket.removeAllListeners(event);
+
+  }
+
 }
 
 // Create a singleton instance

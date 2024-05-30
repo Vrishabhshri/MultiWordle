@@ -58,7 +58,7 @@ io.on('connection', socket => {
 
     socket.on('give-word-server', word => {
 
-        io.to(status.roomID).emit('give-word-guesser', word);
+        io.emit('give-word-guesser', word);
 
     })
 
