@@ -2,6 +2,7 @@ import "../styles/universal.css";
 import "../styles/home.css";
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import socketInstance from '../scripts/websocket';
 
 export default function Home() {
 
@@ -38,6 +39,8 @@ export default function Home() {
 
             let playerInfoData = await playerInfo.json();
 
+            socketInstance.emit('create-room', { roomID, name } )
+
             return playerInfoData;
 
         }
@@ -64,6 +67,8 @@ export default function Home() {
                 if (playerInfo.status === 200) {
 
                     let playerInfoData = await playerInfo.json();
+
+                    socketInstance.emit('join-room', { roomID, name } )
 
                     return playerInfoData;
 

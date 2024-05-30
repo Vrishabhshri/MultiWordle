@@ -26,9 +26,23 @@ const rooms = [];
 
 io.on('connection', socket => {
 
+    socket.on('create-room', info => {
+
+        socket.join(info.roomID);
+
+    });
+
+    socket.on('join-room', info => {
+
+        socket.join(info.roomID);
+
+    });
+
     socket.on('get-room-data', info => {
 
         socket.emit('load-room-data', { players: rooms[info.roomID].players.map(player => player.name) });
+
+        console.log(socket.id);
 
     });
 
@@ -42,11 +56,15 @@ io.on('connection', socket => {
 
         }
 
+        console.log(socket.id);
+
     })
 
     socket.on('give-word-server', word => {
 
         io.emit('give-word-guesser', word);
+
+        console.log(socket.id);
 
     })
 
