@@ -1,14 +1,13 @@
 import React from 'react'
 import "../styles/guesser-waiting.css"
-import io from 'socket.io-client'
 import { useNavigate } from 'react-router-dom'
+import socketInstance from '../scripts/websocket';
 
 function GuesserWaiting() {
 
-    const socket = io.connect("http://localhost:3001");
     const navigate = useNavigate();  
 
-    socket.on('give-word-guesser', word => {
+    socketInstance.on('give-word-guesser', word => {
 
         navigate(`/guesser-board?word=${word}`);
 
