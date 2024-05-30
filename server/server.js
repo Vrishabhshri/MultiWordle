@@ -42,8 +42,6 @@ io.on('connection', socket => {
 
         socket.emit('load-room-data', { players: rooms[info.roomID].players.map(player => player.name) });
 
-        console.log(socket.id);
-
     });
 
     socket.on('all-ready', status => {
@@ -52,19 +50,15 @@ io.on('connection', socket => {
 
             let chosenID = Math.floor(Math.random() * rooms[status.roomID].playerCount + 1);
 
-            io.emit('chosen-player', chosenID);
+            io.to(status.roomID).emit('chosen-player', chosenID);
 
         }
-
-        console.log(socket.id);
 
     })
 
     socket.on('give-word-server', word => {
 
-        io.emit('give-word-guesser', word);
-
-        console.log(socket.id);
+        io.to(status.roomID).emit('give-word-guesser', word);
 
     })
 

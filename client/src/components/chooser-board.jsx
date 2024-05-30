@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import "../styles/board.css";
 import { useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
+import socketInstance from '../scripts/websocket';
 
 function Board2({ rows, columns }) {
 
   const navigate = useNavigate();  
-  const socket = io.connect("http://localhost:3001");
   let currRow = useRef(0);
   let currCol = useRef(0);
 
@@ -73,7 +72,7 @@ function Board2({ rows, columns }) {
 
   }, [currRow, board]);
 
-  const handleSwitch = () => {
+  const handleSwitch = useCallback(() => {
 
     let word = '';
 
@@ -83,11 +82,11 @@ function Board2({ rows, columns }) {
 
     }
 
-    socket.emit('give-word-server', word);
+    socketInstance.emit('give-word-server', word);
 
     navigate('/chooser-waiting');
 
-  }
+  }, [board, navigate]);
 
   const handleLetter = useCallback((e) => {
 
@@ -115,7 +114,7 @@ function Board2({ rows, columns }) {
       handleSwitch();
 
     }
-  }, [addLetter, deleteLetter, turnGreen, wordLengthValid]);
+  }, [addLetter, deleteLetter, turnGreen, wordLengthValid, handleSwitch]);
 
   useEffect(() => {
     function handleKeyDown(e) {
