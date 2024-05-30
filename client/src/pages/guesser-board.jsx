@@ -1,5 +1,5 @@
 import React from 'react'
-import Board from '../components/guesser-board';
+import Board from '../components/guesserBoard';
 import Keyboard from '../components/keyboard';
 
 function GuesserBoard() {
