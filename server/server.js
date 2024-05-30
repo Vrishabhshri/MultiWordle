@@ -22,6 +22,8 @@ const rooms = [];
 
 // Room handling with sockets
 
+// TODO: Need to fix io.emit() to only emit to rooms and not every socket
+
 io.on('connection', socket => {
 
     socket.on('get-room-data', info => {
@@ -39,6 +41,12 @@ io.on('connection', socket => {
             io.emit('chosen-player', chosenID);
 
         }
+
+    })
+
+    socket.on('give-word-server', word => {
+
+        io.emit('give-word-guesser', word);
 
     })
 

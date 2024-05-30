@@ -31,7 +31,7 @@ function WaitingRoom() {
   socket.on('chosen-player', chosenID => {
 
     if (chosenID.toString() === playerID) navigate('/chooser-board');
-    else navigate('/guesser-board');
+    else navigate('/guesser-waiting');
 
   });
 
