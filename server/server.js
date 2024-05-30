@@ -3,8 +3,10 @@ const app = express();
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+const { info } = require('console');
 
 app.use(cors());
+app.use(express.json());
 
 const server = http.createServer(app);
 
@@ -18,51 +20,57 @@ const io = new Server(server, {
 
 const rooms = [];
 
-// Room handling
+// Room handling with sockets
 
 io.on('connection', socket => {
 
-    // Creating a room
+    socket.on('get-room-data', info => {
 
-    socket.on('create-room', (info) => {
+        socket.emit('load-room-data', { players: rooms[info.roomID].players.map(player => player.name) });
 
-        // Creating a new room in database and initializing it with player info
-        rooms[info.roomID] = [{id: 1, name: info.name, ready: false}];
-        socket.join(info.roomID);
-
-        
-        
-        // Sending room ID and player info back to client to display on their waiting room
-        io.emit('load-room-data', { roomID: info.roomID, players: rooms[info.roomID].map(player => player.name) });
     });
-
-    // Joining a room
-
-    socket.on('join-room', (info) => {
-
-        // Checking to see if room exists
-        if (rooms[info.roomID]) {
-
-            // Joining the room
-            socket.join(info.roomID);
-            rooms[info.roomID].push({id: socket.id, name: info.name, ready: false});
-
-            // Sending room ID and player info back to client to display on their waiting room
-            io.emit('load-room-data', { roomID: info.roomID, players: rooms[info.roomID].map(player => player.name) });
-        } else {
-
-            // Alerting if room is not found
-            console.log('Room not found');
-
-        }
-    });
-
-    
 
     socket.on('disconnect', () => {
         // Handle player disconnect
     });
 
+});
+
+
+// Room handling with fetch requests 
+app.post('/create-room', async (req, res) => {
+
+    let info = req.query;
+    let roomID = info.roomID;
+    let name = info.name
+
+    rooms[roomID] = {playerCount: 1, players: [{playerID: 1, name: name, ready: false}]};
+
+    res.json({playerID: 1, name: name, roomID: roomID});
+    
+});
+
+app.get('/join-room', async (req, res) => {
+
+    let info = req.query;
+    let roomID = info.roomID;
+    let name = info.name
+
+    if (rooms[roomID]) {
+
+        let newID = ++rooms[roomID].playerCount;
+
+        rooms[roomID].players.push({playerID: newID, name: name, ready: false});
+
+        res.status(200).json({playerID: newID, name: name, roomID: roomID});
+
+    }
+    else {
+
+        res.sendStatus(500);
+
+    }
+    
 });
 
 server.listen(3001, () => {

@@ -2,8 +2,6 @@ import "../styles/universal.css";
 import "../styles/home.css";
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
-const socket = io.connect("http://localhost:3001");
 
 export default function Home() {
 
@@ -11,10 +9,12 @@ export default function Home() {
     const [IDValue, setIDValue] = useState('');
     const [nameValue, setNameValue] = useState('');
 
-    const handlePlayButtonClick = () => {
+    const handlePlayButtonClick = async () => {
 
-        handleRoom(nameValue);
-        navigate('/waiting-room');
+        let playerInfo = await handleRoom(nameValue);
+
+        if (playerInfo && playerInfo.roomID && playerInfo.name && playerInfo.playerID) 
+            navigate(`/waiting-room?roomID=${playerInfo.roomID}&name=${playerInfo.name}&playerID=${playerInfo.playerID}`);
         
     }
 
@@ -24,33 +24,80 @@ export default function Home() {
 
     }
 
-    const createRoom = (name) => {
+    const createRoom = async (name) => {
 
-        let roomID = generateRoomID();
+        try {
 
-        socket.emit('create-room', { roomID, name });
+            let roomID = generateRoomID();
+
+            let playerInfo = await fetch(`http://localhost:3001/create-room?roomID=${roomID}&name=${name}`, {
+
+                method: "POST"
+
+            });
+
+            let playerInfoData = await playerInfo.json();
+
+            return playerInfoData;
+
+        }
+        catch (err) {
+
+            console.log(err);
+
+        }
 
     }
 
-    const joinRoom = (roomID, name) => {
+    const joinRoom = async (roomID, name) => {
 
         if (roomID.length === 6) {
 
-            socket.emit('join-room', { roomID, name });
+            try {
+    
+                let playerInfo = await fetch(`http://localhost:3001/join-room?roomID=${roomID}&name=${name}`, {
+    
+                    method: "GET"
+    
+                });
+
+                if (playerInfo.status === 200) {
+
+                    let playerInfoData = await playerInfo.json();
+
+                    return playerInfoData;
+
+                }
+                else {
+
+                    alert('Could not find room');
+
+                }
+    
+            }
+            catch (err) {
+    
+                alert("There was an internal server error");
+    
+            }
 
         }
         else {
 
-            console.log('Enter valid ID');
+            alert('Enter valid ID');
 
         }
 
     }
 
-    const handleRoom = (name) => {
+    const handleRoom = async (name) => {
 
-        if (IDValue.trim() === '') createRoom(name);
-        else joinRoom(IDValue.trim(), name);
+        if (IDValue.trim() === '') {
+
+            return await createRoom(name);
+
+        }
+        else return await joinRoom(IDValue.trim(), name);
 
     }
 
