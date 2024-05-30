@@ -11,7 +11,6 @@ function WaitingRoom() {
   const name = searchParams.get('name');
   const playerID = searchParams.get('playerID');
   const roomID = searchParams.get('roomID');
-  const [codeValue, setCodeValue] = useState('');
   const [players, setPlayers] = useState([]);
   const navigate = useNavigate();
 
@@ -20,6 +19,19 @@ function WaitingRoom() {
   socket.on('load-room-data', (data) => {
 
     setPlayers(data.players);
+
+  });
+
+  const changeReadyStatus = () => {
+
+    socket.emit('all-ready', {playerID: playerID, roomID: roomID});
+
+  }
+
+  socket.on('chosen-player', chosenID => {
+
+    if (chosenID.toString() === playerID) navigate('/chooser-board');
+    else navigate('/guesser-board');
 
   });
 
@@ -43,15 +55,15 @@ function WaitingRoom() {
 
           <div id="players-title">Players: </div>
 
-          {players.map(player => (
+          {players.map((player, index) => (
 
-            <div className="player" key={playerID}>{player}</div>
+            <div className="player" key={player.playerID || index}>{player}</div>
 
           ))}
 
         </div>
 
-        <button id="play-button">Play</button>
+        <button id="ready-button" onClick={changeReadyStatus}>Ready</button>
 
     </div>
 

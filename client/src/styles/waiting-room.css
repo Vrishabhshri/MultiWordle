@@ -39,3 +39,34 @@
     font-size: 1.2rem;
 
 }
+
+#ready-button {
+
+    /* scaling */
+    height: 40px;
+    width: 75px;
+
+    /* text */
+    font-size: 1.3rem;
+    color: white;
+
+    /* border */
+    border: 2px solid #073b4c;
+    border-radius: 10px;
+
+    /* background */
+    background-color: #073b4c;
+
+    /* position */
+    margin: 200px 0px 0px 0px;
+
+    /* transition */
+    transition-duration: 0.3s;
+
+}
+
+#ready-button:hover {
+
+    transform: scale(1.1);
+
+}

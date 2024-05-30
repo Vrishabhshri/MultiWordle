@@ -30,6 +30,18 @@ io.on('connection', socket => {
 
     });
 
+    socket.on('all-ready', status => {
+
+        if (++rooms[status.roomID].readyCount === rooms[status.roomID].playerCount) {
+
+            let chosenID = Math.floor(Math.random() * rooms[status.roomID].playerCount + 1);
+
+            io.emit('chosen-player', chosenID);
+
+        }
+
+    })
+
     socket.on('disconnect', () => {
         // Handle player disconnect
     });
@@ -44,7 +56,7 @@ app.post('/create-room', async (req, res) => {
     let roomID = info.roomID;
     let name = info.name
 
-    rooms[roomID] = {playerCount: 1, players: [{playerID: 1, name: name, ready: false}]};
+    rooms[roomID] = {playerCount: 1, readyCount: 0, players: [{playerID: 1, name: name, ready: false}]};
 
     res.json({playerID: 1, name: name, roomID: roomID});
     
