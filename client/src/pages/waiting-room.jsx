@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "../styles/waiting-room.css";
 import io from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
-const socket = io.connect("http://localhost:3001");
+import socketInstance from '../scripts/websocket';
 
 function WaitingRoom() {
 
@@ -14,9 +14,9 @@ function WaitingRoom() {
   const [players, setPlayers] = useState([]);
   const navigate = useNavigate();
 
-  socket.emit('get-room-data', {roomID: roomID});
-  
-  socket.on('load-room-data', (data) => {
+  socketInstance.emit('get-room-data', {roomID: roomID});
+
+  socketInstance.on('load-room-data', (data) => {
 
     setPlayers(data.players);
 
@@ -24,11 +24,11 @@ function WaitingRoom() {
 
   const changeReadyStatus = () => {
 
-    socket.emit('all-ready', {playerID: playerID, roomID: roomID});
+    socketInstance.emit('all-ready', {playerID: playerID, roomID: roomID});
 
   }
 
-  socket.on('chosen-player', chosenID => {
+  socketInstance.on('chosen-player', chosenID => {
 
     if (chosenID.toString() === playerID) navigate('/chooser-board');
     else navigate('/guesser-waiting');
