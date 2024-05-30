@@ -62,9 +62,9 @@ function Board({ rows, columns, chosenWord }) {
     // Keeping track of letter count to ensure more than required yellows are not shown
     let letterCount = {};
 
-    for (let i = 0; i < newBoard[row].length; i++) {
+    for (let i = 0; i < chosenWord.length; i++) {
 
-      letterCount[newBoard[row][i].letter] = (letterCount[newBoard[row][i].letter] || 0) + 1;
+      letterCount[chosenWord[i]] = letterCount[chosenWord[i]] ? letterCount[chosenWord[i]] + 1 : 1;
 
     }
 
@@ -82,6 +82,8 @@ function Board({ rows, columns, chosenWord }) {
       }
 
     }
+
+    console.log(letterCount);
 
     // Second pass to check for yellow and gray letters
     for (let i = 0; i < newBoard[row].length; i++) {
@@ -141,12 +143,12 @@ function Board({ rows, columns, chosenWord }) {
     }
     else if (e.code === 'Enter') {
 
-      if (wordLengthValid()) {
+      // if (wordLengthValid()) {
         
 
 
-      }
-      else console.log("need to enter a valid word");
+      // }
+      // else console.log("need to enter a valid word");
 
       checkMatch();
 

@@ -110,13 +110,13 @@ function Board({ rows, columns }) {
     }
     else if (e.code === 'Enter') {
 
-      if (wordLengthValid() && wordValid()) {
+      // if (wordLengthValid() && wordValid()) {
         
         turnGreen();
         handleSwitch();
 
-      }
-      else console.log("need to enter a valid word");
+      // }
+      // else console.log("need to enter a valid word");
 
     }
   }, [addLetter, deleteLetter, turnGreen, wordLengthValid, handleSwitch]);
