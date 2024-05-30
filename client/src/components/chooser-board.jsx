@@ -6,7 +6,6 @@ import socketInstance from '../scripts/websocket';
 function Board({ rows, columns }) {
 
   // Initializing navigate, column and row position, and board
-
   const navigate = useNavigate();  
   let currRow = useRef(0);
   let currCol = useRef(0);
@@ -18,7 +17,6 @@ function Board({ rows, columns }) {
   );
 
   // Adds letter to board and updates board and current column position
-
   const addLetter = useCallback((letter) => {
 
     if (currCol.current <= 4) {
@@ -35,7 +33,6 @@ function Board({ rows, columns }) {
   }, [board, currCol, currRow]);
 
   // Deletes letter from the board and updates the board and current column position
-
   const deleteLetter = useCallback(() => {
 
     if (currCol.current-1 >= 0) {
@@ -52,7 +49,6 @@ function Board({ rows, columns }) {
   }, [currCol, board, currRow]);
 
   // Checks to ensure the word length is valid (could be gotten rid of since word can only be valid if it's five letters long)
-
   const wordLengthValid = useCallback(() => {
 
     if (currCol.current < 5) return false;
@@ -61,7 +57,6 @@ function Board({ rows, columns }) {
   }, [currCol]);
 
   // Checks dictionary to check if word is valid
-
   const wordValid = () => {
 
     // Check dictionary to see if it's a valid word
@@ -69,7 +64,6 @@ function Board({ rows, columns }) {
   }
 
   // Aesthetic to turn all boxes green when a valid word is chosen
-
   const turnGreen = useCallback(() => {
 
     let newBoard = board.map(row => [...row]);
@@ -85,7 +79,6 @@ function Board({ rows, columns }) {
   }, [currRow, board]);
 
   // Handles event "Enter" and sends the words to the server and redirects to the chooser-waiting page
-
   const handleSwitch = useCallback(() => {
 
     let word = '';
@@ -103,7 +96,6 @@ function Board({ rows, columns }) {
   }, [board, navigate]);
 
   // Function to handle what key was pressed and which function to route action to
-
   const handleLetter = useCallback((e) => {
 
     if (e.code === `Key${e.key.toUpperCase()}`){
@@ -130,7 +122,6 @@ function Board({ rows, columns }) {
   }, [addLetter, deleteLetter, turnGreen, wordLengthValid, handleSwitch]);
 
   // Handle key listening
-
   useEffect(() => {
     function handleKeyDown(e) {
 

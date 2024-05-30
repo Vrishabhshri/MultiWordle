@@ -6,10 +6,12 @@ import socketInstance from '../scripts/websocket';
 
 export default function Home() {
 
+    // Initialize navigate, name and ID (if any)
     const navigate = useNavigate();
     const [IDValue, setIDValue] = useState('');
     const [nameValue, setNameValue] = useState('');
 
+    // Handles when play button is clicked
     const handlePlayButtonClick = async () => {
 
         let playerInfo = await handleRoom(nameValue);
@@ -19,12 +21,14 @@ export default function Home() {
         
     }
 
+    // Generates room ID
     const generateRoomID = () => {
 
         return "XXVBHG";
 
     }
 
+    // Creating a room
     const createRoom = async (name) => {
 
         try {
@@ -52,6 +56,7 @@ export default function Home() {
 
     }
 
+    // Joining a player to a room
     const joinRoom = async (roomID, name) => {
 
         if (roomID.length === 6) {
@@ -95,6 +100,7 @@ export default function Home() {
 
     }
 
+    // Handle whether to join or create a room
     const handleRoom = async (name) => {
 
         if (IDValue.trim() === '') {
@@ -106,12 +112,14 @@ export default function Home() {
 
     }
 
+    // Handles ID input being changed
     const handleIDChange = (e) => {
 
         setIDValue(e.target.value);
 
     };
 
+    // Handles name input being changed
     const handleNameChange = (e) => {
 
         setNameValue(e.target.value);

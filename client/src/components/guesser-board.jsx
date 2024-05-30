@@ -4,7 +4,6 @@ import "../styles/board.css";
 function Board({ rows, columns, chosenWord }) {
 
   // Initializing navigate, column and row position, and board
-
   let currRow = useRef(0);
   let currCol = useRef(0);
 
@@ -15,7 +14,6 @@ function Board({ rows, columns, chosenWord }) {
   );
 
   // Adds letter to board and updates board and current column position
-
   const addLetter = useCallback((letter) => {
 
     if (currCol.current <= 4) {
@@ -32,7 +30,6 @@ function Board({ rows, columns, chosenWord }) {
   }, [board, currCol, currRow]);
 
   // Deletes letter from the board and updates the board and current column position
-
   const deleteLetter = useCallback(() => {
 
     if (currCol.current-1 >= 0) {
@@ -49,7 +46,6 @@ function Board({ rows, columns, chosenWord }) {
   }, [currCol, board, currRow]);
 
   // Checks to ensure the word length is valid (could be gotten rid of since word can only be valid if it's five letters long)
-
   const wordLengthValid = useCallback(() => {
 
     if (currCol.current < 5) return false;
@@ -58,14 +54,12 @@ function Board({ rows, columns, chosenWord }) {
   }, [currCol]);
 
   // Checks to see whether current guess matches the chooser's word
-
   const checkMatch = useCallback(() => {
 
     let row = currRow.current;
     let newBoard = board.map(row => [...row]);
 
     // Keeping track of letter count to ensure more than required yellows are not shown
-
     let letterCount = {};
 
     for (let i = 0; i < newBoard[row].length; i++) {
@@ -75,7 +69,6 @@ function Board({ rows, columns, chosenWord }) {
     }
 
     // First pass to check for green letters
-
     let greenCount = 0;
 
     for (let i = 0; i < newBoard[row].length; i++) {
@@ -91,7 +84,6 @@ function Board({ rows, columns, chosenWord }) {
     }
 
     // Second pass to check for yellow and gray letters
-
     for (let i = 0; i < newBoard[row].length; i++) {
 
       if (newBoard[row][i].status === '') {
@@ -135,7 +127,6 @@ function Board({ rows, columns, chosenWord }) {
   }, [currCol, currRow, board, chosenWord]);
 
   // Function to handle what key was pressed and which function to route action to
-
   const handleLetter = useCallback((e) => {
 
     if (e.code === `Key${e.key.toUpperCase()}`){
@@ -163,7 +154,6 @@ function Board({ rows, columns, chosenWord }) {
   }, [addLetter, deleteLetter, checkMatch, wordLengthValid]);
 
   // Handle key listening
-
   useEffect(() => {
     function handleKeyDown(e) {
 
