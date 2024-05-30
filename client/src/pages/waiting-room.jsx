@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import "../styles/waiting-room.css";
-import io from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 import socketInstance from '../scripts/websocket';
 
@@ -8,7 +7,7 @@ function WaitingRoom() {
 
   const searchParams = new URLSearchParams(window.location.search);
 
-  const name = searchParams.get('name');
+  // const name = searchParams.get('name');
   const playerID = searchParams.get('playerID');
   const roomID = searchParams.get('roomID');
   const [players, setPlayers] = useState([]);
