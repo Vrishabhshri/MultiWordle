@@ -13,20 +13,24 @@ function WaitingRoom() {
   const [players, setPlayers] = useState([]);
   const navigate = useNavigate();
 
+  // Signaling server to send data about waiting room
   socketInstance.emit('get-room-data', {roomID: roomID});
 
+  // Loading data from server
   socketInstance.on('load-room-data', (data) => {
 
     setPlayers(data.players);
 
   });
 
+  // Alerting server that player is ready
   const changeReadyStatus = () => {
 
     socketInstance.emit('all-ready', {playerID: playerID, roomID: roomID});
 
   }
 
+  // Checks to see whether player was chosen to be chooser
   socketInstance.on('chosen-player', chosenID => {
 
     if (chosenID.toString() === playerID) navigate('/chooser-board');
