@@ -41,11 +41,22 @@ export default function Home() {
 
             });
 
-            let playerInfoData = await playerInfo.json();
+            if (playerInfo.status === 200) {
 
-            socketInstance.emit('create-room', { roomID, name } )
+                let playerInfoData = await playerInfo.json();
 
-            return playerInfoData;
+                socketInstance.emit('create-room', { roomID, name } )
+
+                return playerInfoData;
+
+            }
+
+            else {
+
+                alert('There was a problem in creating a room, try again');
+                return null;
+
+            }
 
         }
         catch (err) {

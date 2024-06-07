@@ -76,9 +76,15 @@ app.post('/create-room', async (req, res) => {
     let roomID = info.roomID;
     let name = info.name
 
-    rooms[roomID] = {playerCount: 1, readyCount: 0, players: [{playerID: 1, name: name, ready: false}]};
+    if (Object.keys(rooms).includes(roomID)) res.sendStatus(500);
 
-    res.json({playerID: 1, name: name, roomID: roomID});
+    else {
+
+        rooms[roomID] = {playerCount: 1, readyCount: 0, players: [{playerID: 1, name: name, ready: false}]};
+
+        res.status(200).json({playerID: 1, name: name, roomID: roomID});
+
+    }
     
 });
 
