@@ -5,7 +5,7 @@ import socketInstance from '../scripts/websocket';
 
 function WaitingRoom() {
 
-  console.log(socketInstance.getSocket().id);
+  console.log(socketInstance.getSocket());
 
   const searchParams = new URLSearchParams(window.location.search);
 

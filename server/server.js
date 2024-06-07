@@ -3,7 +3,6 @@ const app = express();
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
-const { info } = require('console');
 
 app.use(cors());
 app.use(express.json());
