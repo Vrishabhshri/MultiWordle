@@ -76,6 +76,7 @@ app.post('/create-room', async (req, res) => {
     let roomID = info.roomID;
     let name = info.name
 
+    // Ensure room does not exist before creating it
     if (Object.keys(rooms).includes(roomID)) res.sendStatus(500);
 
     else {
@@ -94,6 +95,7 @@ app.get('/join-room', async (req, res) => {
     let roomID = info.roomID;
     let name = info.name
 
+    // Ensure rooms exists before joining
     if (rooms[roomID]) {
 
         let newID = ++rooms[roomID].playerCount;
