@@ -23,6 +23,25 @@ function WaitingRoom() {
 
   });
 
+  /* Pretty sure this doesn't work to replace the sockets above since the objects would be 
+  stringified and then brought back to an object so it wouldn't modify as new players joined */
+
+  // Loading players info to display
+  // const playerInfo = await fetch(`http://localhost:3001/load-room-data?roomID=${roomID}`, {
+
+  //   method: "GET"
+
+  // });
+
+  // if (playerInfo.status === 200) {
+
+  //   let data = await playerInfo.json();
+  //   console.log(data.players);
+
+  //   setPlayers(data.players);
+
+  // }
+
   // Alerting server that player is ready
   const changeReadyStatus = () => {
 

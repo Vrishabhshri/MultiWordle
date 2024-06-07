@@ -21,9 +21,6 @@ const io = new Server(server, {
 const rooms = [];
 
 // Room handling with sockets
-
-// TODO: Need to fix io.emit() to only emit to rooms and not every socket
-
 io.on('connection', socket => {
 
     socket.on('create-room', info => {
@@ -70,6 +67,8 @@ io.on('connection', socket => {
 
 
 // Room handling with fetch requests 
+
+// Creating a room
 app.post('/create-room', async (req, res) => {
 
     let info = req.query;
@@ -89,6 +88,7 @@ app.post('/create-room', async (req, res) => {
     
 });
 
+// Joining a room
 app.get('/join-room', async (req, res) => {
 
     let info = req.query;
@@ -112,6 +112,18 @@ app.get('/join-room', async (req, res) => {
     }
     
 });
+
+// Loading room data
+// app.get('/load-room-data', async (req, res) => {
+
+//     let info = req.query;
+//     let roomID = info.roomID;
+
+//     let sendData = rooms[info.roomID].players.map(player => player.name);
+
+//     res.status(200).json({ players: sendData });
+
+// })
 
 server.listen(3001, () => {
 
