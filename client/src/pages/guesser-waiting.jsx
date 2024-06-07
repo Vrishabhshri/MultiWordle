@@ -1,6 +1,6 @@
-import React from 'react'
-import "../styles/guesser-waiting.css"
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import "../styles/guesser-waiting.css";
+import { useNavigate } from 'react-router-dom';
 import socketInstance from '../scripts/websocket';
 
 function GuesserWaiting() {
