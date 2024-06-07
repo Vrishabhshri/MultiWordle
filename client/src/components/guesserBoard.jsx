@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import "../styles/board.css";
+import { useNavigate } from 'react-router-dom';
 
 function Board({ rows, columns, chosenWord }) {
 
   // Initializing navigate, column and row position, and board
   let currRow = useRef(0);
   let currCol = useRef(0);
+  const navigate = useNavigate();
 
   let [board, setBoard] = useState(
     Array.from(Array(rows), () =>
@@ -110,7 +112,8 @@ function Board({ rows, columns, chosenWord }) {
 
     if (greenCount === 5) {
 
-      // Output that you win
+      alert('You win');
+      navigate('/waiting-room');
 
     }
 
