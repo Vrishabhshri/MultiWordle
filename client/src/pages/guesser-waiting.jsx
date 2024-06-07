@@ -5,11 +5,16 @@ import socketInstance from '../scripts/websocket';
 
 function GuesserWaiting() {
 
+    console.log(socketInstance.getSocket().id);
+
     const navigate = useNavigate();  
+    const searchParams = new URLSearchParams(window.location.search);
+    const roomID = searchParams.get('roomID');
 
     socketInstance.on('give-word-guesser', word => {
 
-        navigate(`/guesser-board?word=${word}`);
+        console.log("HellO");
+        navigate(`/guesser-board?word=${word}&roomID=${roomID}`);
 
     })
 

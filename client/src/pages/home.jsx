@@ -6,6 +6,8 @@ import socketInstance from '../scripts/websocket';
 
 export default function Home() {
 
+    console.log(socketInstance.getSocket().id);
+
     // Initialize navigate, name and ID (if any)
     const navigate = useNavigate();
     const [IDValue, setIDValue] = useState('');

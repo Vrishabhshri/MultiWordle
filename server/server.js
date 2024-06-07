@@ -23,24 +23,28 @@ const rooms = [];
 // Room handling with sockets
 io.on('connection', socket => {
 
+    // Joining user to roomID
     socket.on('create-room', info => {
 
         socket.join(info.roomID);
 
     });
 
+    // Joining user to roomID
     socket.on('join-room', info => {
 
         socket.join(info.roomID);
 
     });
 
+    // Receiving request to load player data to send back to player to load onto their waiting page
     socket.on('get-room-data', info => {
 
         socket.emit('load-room-data', { players: rooms[info.roomID].players.map(player => player.name) });
 
     });
 
+    // Checking to see whether all players in current room are ready
     socket.on('all-ready', status => {
 
         if (++rooms[status.roomID].readyCount === rooms[status.roomID].playerCount) {
@@ -53,9 +57,10 @@ io.on('connection', socket => {
 
     })
 
-    socket.on('give-word-server', word => {
+    // Receiving word from chooser to give to each player in the room
+    socket.on('give-word-server', info => {
 
-        io.emit('give-word-guesser', word);
+        io.to(info.roomID).emit('give-word-guesser', info.word);
 
     })
 

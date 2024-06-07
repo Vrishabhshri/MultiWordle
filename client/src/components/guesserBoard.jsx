@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import "../styles/board.css";
 import { useNavigate } from 'react-router-dom';
+import socketInstance from '../scripts/websocket';
 
-function Board({ rows, columns, chosenWord }) {
+function Board({ rows, columns, chosenWord, roomID }) {
 
   // Initializing navigate, column and row position, and board
   let currRow = useRef(0);
@@ -85,8 +86,6 @@ function Board({ rows, columns, chosenWord }) {
 
     }
 
-    console.log(letterCount);
-
     // Second pass to check for yellow and gray letters
     for (let i = 0; i < newBoard[row].length; i++) {
 
@@ -113,7 +112,7 @@ function Board({ rows, columns, chosenWord }) {
     if (greenCount === 5) {
 
       alert('You win');
-      navigate('/waiting-room');
+      socketInstance.emit('guesser-won');
 
     }
 
@@ -156,7 +155,7 @@ function Board({ rows, columns, chosenWord }) {
       checkMatch();
 
     }
-  }, [addLetter, deleteLetter, checkMatch, wordLengthValid]);
+  }, [addLetter, deleteLetter, checkMatch]);
 
   // Handle key listening
   useEffect(() => {

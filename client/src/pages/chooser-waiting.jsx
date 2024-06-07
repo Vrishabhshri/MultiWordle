@@ -2,12 +2,15 @@ import React from 'react'
 
 function ChooserWaiting() {
 
-  return (
+    const searchParams = new URLSearchParams(window.location.search);
+    const roomID = searchParams.get('roomID');
 
-    <div>ChooserWaiting</div>
+    return (
 
-  )
-  
+        <div>ChooserWaiting</div>
+
+    )
+
 }
 
 export default ChooserWaiting

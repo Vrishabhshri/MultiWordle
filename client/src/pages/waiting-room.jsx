@@ -5,6 +5,8 @@ import socketInstance from '../scripts/websocket';
 
 function WaitingRoom() {
 
+  console.log(socketInstance.getSocket().id);
+
   const searchParams = new URLSearchParams(window.location.search);
 
   // const name = searchParams.get('name');
@@ -52,8 +54,8 @@ function WaitingRoom() {
   // Checks to see whether player was chosen to be chooser
   socketInstance.on('chosen-player', chosenID => {
 
-    if (chosenID.toString() === playerID) navigate('/chooser-board');
-    else navigate('/guesser-waiting');
+    if (chosenID.toString() === playerID) navigate(`/chooser-board?roomID=${roomID}`);
+    else navigate(`/guesser-waiting?roomID=${roomID}`);
 
   });
 

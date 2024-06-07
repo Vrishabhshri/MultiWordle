@@ -3,7 +3,7 @@ import "../styles/board.css";
 import { useNavigate } from 'react-router-dom';
 import socketInstance from '../scripts/websocket';
 
-function Board({ rows, columns }) {
+function Board({ rows, columns, roomID }) {
 
   // Initializing navigate, column and row position, and board
   const navigate = useNavigate();  
@@ -89,11 +89,10 @@ function Board({ rows, columns }) {
 
     }
 
-    socketInstance.emit('give-word-server', word);
+    socketInstance.emit('give-word-server', {word: word, roomID: roomID});
+    navigate(`/chooser-waiting?roomID=${roomID}`);
 
-    navigate('/chooser-waiting');
-
-  }, [board, navigate]);
+  }, [board, navigate, roomID]);
 
   // Function to handle what key was pressed and which function to route action to
   const handleLetter = useCallback((e) => {
@@ -119,7 +118,7 @@ function Board({ rows, columns }) {
       // else console.log("need to enter a valid word");
 
     }
-  }, [addLetter, deleteLetter, turnGreen, wordLengthValid, handleSwitch]);
+  }, [addLetter, deleteLetter, turnGreen, handleSwitch]);
 
   // Handle key listening
   useEffect(() => {
