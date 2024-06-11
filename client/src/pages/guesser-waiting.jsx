@@ -5,8 +5,6 @@ import socketInstance from '../scripts/websocket';
 
 function GuesserWaiting() {
 
-    console.log(socketInstance.getSocket());
-
     const navigate = useNavigate();  
     const searchParams = new URLSearchParams(window.location.search);
     const roomID = searchParams.get('roomID');
