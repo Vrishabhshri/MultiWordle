@@ -77,16 +77,16 @@ app.post('/create-room', async (req, res) => {
 
     let info = req.query;
     let roomID = info.roomID;
-    let name = info.name
+    let username = info.username
 
     // Ensure room does not exist before creating it
     if (Object.keys(rooms).includes(roomID)) res.sendStatus(500);
 
     else {
 
-        rooms[roomID] = {playerCount: 1, readyCount: 0, players: [{playerID: 1, name: name, ready: false}]};
+        rooms[roomID] = {playerCount: 1, readyCount: 0, players: [{playerID: 1, username: username, ready: false}]};
 
-        res.status(200).json({playerID: 1, name: name, roomID: roomID});
+        res.status(200).json({playerID: `${roomID}-${username}`, username: username, roomID: roomID});
 
     }
     
@@ -97,16 +97,16 @@ app.get('/join-room', async (req, res) => {
 
     let info = req.query;
     let roomID = info.roomID;
-    let name = info.name
+    let username = info.username
 
     // Ensure rooms exists before joining
     if (rooms[roomID]) {
 
         let newID = ++rooms[roomID].playerCount;
 
-        rooms[roomID].players.push({playerID: newID, name: name, ready: false});
+        rooms[roomID].players.push({playerID: newID, username: username, ready: false});
 
-        res.status(200).json({playerID: newID, name: name, roomID: roomID});
+        res.status(200).json({playerID: newID, username: username, roomID: roomID});
 
     }
     else {

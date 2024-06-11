@@ -22,6 +22,7 @@ export default function Home() {
     }
 
     // Generates room ID
+    // TODO: Generate and actual random ID (maybe change this to happen in the server)
     const generateRoomID = () => {
 
         return "XXVBHG";
@@ -35,12 +36,14 @@ export default function Home() {
 
             let roomID = generateRoomID();
 
+            // Fetch call to create a new room
             let playerInfo = await fetch(`http://localhost:3001/create-room?roomID=${roomID}&name=${name}`, {
 
                 method: "POST"
 
             });
 
+            // If room creation was successful
             if (playerInfo.status === 200) {
 
                 let playerInfoData = await playerInfo.json();
@@ -51,6 +54,7 @@ export default function Home() {
 
             }
 
+            // Room creation not successful, i.e. room ID already exists for some reason
             else {
 
                 alert('There was a problem in creating a room, try again');
