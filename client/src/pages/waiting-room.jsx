@@ -1,23 +1,34 @@
 import React, { useState } from 'react';
 import "../styles/waiting-room.css";
 import { useNavigate } from 'react-router-dom';
-import socketInstance from '../scripts/websocket';
+import { io } from 'socket.io-client';
 
 function WaitingRoom() {
 
   const searchParams = new URLSearchParams(window.location.search);
+  const socket = io("http://localhost:3001");
+  const ls = window.localStorage;
 
-  // const name = searchParams.get('name');
+  const name = searchParams.get('name');
   const playerID = searchParams.get('playerID');
   const roomID = searchParams.get('roomID');
+  // const playerInfo = JSON.parse(ls.getItem('playerInfo'));
+  // const name = playerInfo.name;
+  // const playerID = playerInfo.playerID;
+  // const roomID = playerInfo.roomID;
   const [players, setPlayers] = useState([]);
   const navigate = useNavigate();
 
+  // console.log(`${name}-${playerID}-${roomID}`)
+
+  // Joining socket room
+  socket.emit('join-room', roomID);
+
   // Signaling server to send data about waiting room
-  socketInstance.emit('get-room-data', {roomID: roomID});
+  socket.emit('get-room-data', roomID);
 
   // Loading data from server
-  socketInstance.on('load-room-data', (data) => {
+  socket.on('load-room-data', (data) => {
 
     setPlayers(data.players);
 
@@ -26,15 +37,25 @@ function WaitingRoom() {
   // Alerting server that player is ready
   const changeReadyStatus = () => {
 
-    socketInstance.emit('all-ready', {playerID: playerID, roomID: roomID});
+    socket.emit('all-ready', {playerID: playerID, roomID: roomID});
 
   }
 
   // Checks to see whether player was chosen to be chooser
-  socketInstance.on('chosen-player', chosenID => {
+  socket.on('chosen-player', chosenID => {
 
-    if (chosenID.toString() === playerID) navigate(`/chooser-board?roomID=${roomID}`);
-    else navigate(`/guesser-waiting?roomID=${roomID}`);
+    if (chosenID === playerID) {
+
+      socket.disconnect();
+      navigate(`/chooser-board?roomID=${roomID}&name=${name}&playerID=${playerID}`);
+
+    }
+    else {
+      
+      socket.disconnect();
+      navigate(`/guesser-waiting?roomID=${roomID}&name=${name}&playerID=${playerID}`);
+
+    }
 
   });
 

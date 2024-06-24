@@ -1,9 +1,13 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import "../styles/board.css";
 import { useNavigate } from 'react-router-dom';
-import socketInstance from '../scripts/websocket';
+import { io } from 'socket.io-client';
 
-function Board({ rows, columns, roomID }) {
+function Board({ rows, columns, roomID, playerID, name }) {
+
+  const socket = io("http://localhost:3001");
+
+  socket.emit('join-room', roomID);
 
   // Initializing navigate, column and row position, and board
   const navigate = useNavigate();  
@@ -89,7 +93,8 @@ function Board({ rows, columns, roomID }) {
 
     }
 
-    socketInstance.emit('give-word-server', {word: word, roomID: roomID});
+    socket.emit('give-word-server', {word: word, roomID: roomID});
+    socket.disconnect();
     navigate(`/chooser-waiting?roomID=${roomID}`);
 
   }, [board, navigate, roomID]);

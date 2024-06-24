@@ -2,9 +2,12 @@ import "../styles/universal.css";
 import "../styles/home.css";
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import socketInstance from '../scripts/websocket';
+import { io } from 'socket.io-client';
 
 export default function Home() {
+
+    const socket = io("http://localhost:3001");
+    const ls = window.localStorage;
 
     // Initialize navigate, name and ID (if any)
     const navigate = useNavigate();
@@ -16,8 +19,15 @@ export default function Home() {
 
         let playerInfo = await handleRoom(nameValue);
 
-        if (playerInfo && playerInfo.roomID && playerInfo.name && playerInfo.playerID) 
+        // ls.setItem('playerInfo', JSON.stringify({ roomID: playerInfo.roomID, name: playerInfo.name, playerID: playerInfo.playerID }) )
+
+        if (playerInfo && playerInfo.roomID && playerInfo.name && playerInfo.playerID) {
+
+            socket.disconnect();
             navigate(`/waiting-room?roomID=${playerInfo.roomID}&name=${playerInfo.name}&playerID=${playerInfo.playerID}`);
+            // navigate(`/waiting-room`);
+
+        }
         
     }
 
@@ -47,8 +57,6 @@ export default function Home() {
             if (playerInfo.status === 200) {
 
                 let playerInfoData = await playerInfo.json();
-
-                socketInstance.emit('create-room', { roomID, name } )
 
                 return playerInfoData;
 
@@ -87,8 +95,6 @@ export default function Home() {
                 if (playerInfo.status === 200) {
 
                     let playerInfoData = await playerInfo.json();
-
-                    socketInstance.emit('join-room', { roomID, name } )
 
                     return playerInfoData;
 

@@ -23,23 +23,16 @@ const rooms = [];
 io.on('connection', socket => {
 
     // Joining user to roomID
-    socket.on('create-room', info => {
+    socket.on('join-room', roomID => {
 
-        socket.join(info.roomID);
-
-    });
-
-    // Joining user to roomID
-    socket.on('join-room', info => {
-
-        socket.join(info.roomID);
+        socket.join(roomID);
 
     });
 
     // Receiving request to load player data to send back to player to load onto their waiting page
-    socket.on('get-room-data', info => {
+    socket.on('get-room-data', roomID => {
 
-        socket.emit('load-room-data', { players: rooms[info.roomID].players.map(player => player.name) });
+        socket.emit('load-room-data', { players: rooms[roomID].players.map(player => player.name) });
 
     });
 
@@ -48,7 +41,8 @@ io.on('connection', socket => {
 
         if (++rooms[status.roomID].readyCount === rooms[status.roomID].playerCount) {
 
-            let chosenID = Math.floor(Math.random() * rooms[status.roomID].playerCount + 1);
+            let chosenIndex = Math.floor(Math.random() * rooms[status.roomID].playerCount);
+            let chosenID = rooms[status.roomID].players[chosenIndex].playerID;
 
             io.to(status.roomID).emit('chosen-player', chosenID);
 
@@ -84,7 +78,7 @@ app.post('/create-room', async (req, res) => {
 
     else {
 
-        rooms[roomID] = {playerCount: 1, readyCount: 0, players: [{playerID: 1, name: name, ready: false}]};
+        rooms[roomID] = {playerCount: 1, readyCount: 0, players: [{playerID: `${roomID}-${name}`, name: name, ready: false}]};
 
         res.status(200).json({playerID: `${roomID}-${name}`, name: name, roomID: roomID});
 
@@ -102,11 +96,11 @@ app.get('/join-room', async (req, res) => {
     // Ensure rooms exists before joining
     if (rooms[roomID]) {
 
-        let newID = ++rooms[roomID].playerCount;
+        ++rooms[roomID].playerCount;
 
-        rooms[roomID].players.push({playerID: newID, name: name, ready: false});
+        rooms[roomID].players.push({playerID: `${roomID}-${name}`, name: name, ready: false});
 
-        res.status(200).json({playerID: newID, name: name, roomID: roomID});
+        res.status(200).json({playerID: `${roomID}-${name}`, name: name, roomID: roomID});
 
     }
     else {

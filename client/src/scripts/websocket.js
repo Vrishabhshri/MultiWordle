@@ -39,6 +39,13 @@ class WebSocket {
 
   }
 
+  // Method to get the socket instance id
+  getSocketID() {
+
+    return this.#socket.id;
+
+  }
+
   // Method to emit events
   emit(event, data) {
 

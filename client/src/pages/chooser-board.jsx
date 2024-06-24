@@ -6,12 +6,14 @@ function ChooserBoard() {
 
   const searchParams = new URLSearchParams(window.location.search);
   const roomID = searchParams.get('roomID');
+  const name = searchParams.get('name');
+  const playerID = searchParams.get('playerID');
 
   return (
 
     <div id="main">
 
-        <Board rows={1} columns={5} roomID={roomID}></Board>
+        <Board rows={1} columns={5} roomID={roomID} playerID={playerID} name={name}></Board>
 
         <Keyboard></Keyboard>
 

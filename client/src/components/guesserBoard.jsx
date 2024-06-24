@@ -1,9 +1,13 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import "../styles/board.css";
 import { useNavigate } from 'react-router-dom';
-import socketInstance from '../scripts/websocket';
+import { io } from 'socket.io-client';
 
-function Board({ rows, columns, chosenWord, roomID }) {
+function Board({ rows, columns, chosenWord, roomID, playerID, name }) {
+
+  const socket = io("http://localhost:3001");
+
+  socket.emit('join-room', roomID);
 
   // Initializing navigate, column and row position, and board
   let currRow = useRef(0);
@@ -112,7 +116,7 @@ function Board({ rows, columns, chosenWord, roomID }) {
     if (greenCount === 5) {
 
       alert('You win');
-      socketInstance.emit('guesser-won');
+      socket.emit('guesser-won');
 
     }
 
