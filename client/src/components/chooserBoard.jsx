@@ -60,13 +60,6 @@ function Board({ rows, columns, roomID, playerID, name }) {
 
   }, [currCol]);
 
-  // Checks dictionary to check if word is valid
-  const wordValid = () => {
-
-    // Check dictionary to see if it's a valid word
-
-  }
-
   // Aesthetic to turn all boxes green when a valid word is chosen
   const turnGreen = useCallback(() => {
 

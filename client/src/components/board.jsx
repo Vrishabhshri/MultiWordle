@@ -134,6 +134,23 @@ function Board({ rows, columns, chosenWord, roomID, playerID, name }) {
 
   }, [currCol, currRow, board, chosenWord]);
 
+  // Handles event "Enter" and sends the words to the server and redirects to the chooser-waiting page
+  const handleSwitch = useCallback(() => {
+
+    let word = '';
+
+    for (let i = 0; i < board[currRow.current].length; i++) {
+
+        word += board[currRow.current][i].letter;
+
+    }
+
+    socket.emit('give-word-server', {word: word, roomID: roomID});
+    socket.disconnect();
+    navigate(`/chooser-waiting?roomID=${roomID}`);
+
+  }, [board, navigate, roomID]);
+
   // Function to handle what key was pressed and which function to route action to
   const handleLetter = useCallback((e) => {
 
@@ -149,14 +166,10 @@ function Board({ rows, columns, chosenWord, roomID, playerID, name }) {
     }
     else if (e.code === 'Enter') {
 
-      // if (wordLengthValid()) {
-        
+    //   checkValidWord();
 
-
-      // }
-      // else console.log("need to enter a valid word");
-
-      checkMatch();
+      if (chosenWord) checkMatch();
+      else handleSwitch();
 
     }
   }, [addLetter, deleteLetter, checkMatch]);

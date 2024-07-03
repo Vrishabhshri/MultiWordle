@@ -12,14 +12,10 @@ function WaitingRoom() {
   const name = searchParams.get('name');
   const playerID = searchParams.get('playerID');
   const roomID = searchParams.get('roomID');
-  // const playerInfo = JSON.parse(ls.getItem('playerInfo'));
-  // const name = playerInfo.name;
-  // const playerID = playerInfo.playerID;
-  // const roomID = playerInfo.roomID;
   const [players, setPlayers] = useState([]);
   const navigate = useNavigate();
-
-  // console.log(`${name}-${playerID}-${roomID}`)
+  
+  const [color, setColor] = useState('white');
 
   // Joining socket room
   socket.emit('join-room', roomID);
@@ -36,6 +32,8 @@ function WaitingRoom() {
 
   // Alerting server that player is ready
   const changeReadyStatus = () => {
+
+    setColor((prevColor) => (prevColor === 'white' ? 'yellow' : 'white'));
 
     socket.emit('all-ready', {playerID: playerID, roomID: roomID});
 
@@ -87,7 +85,11 @@ function WaitingRoom() {
 
         </div>
 
-        <button id="ready-button" onClick={changeReadyStatus}>Ready</button>
+        <div id="ready-button-container">
+
+          <button id="ready-button" onClick={changeReadyStatus} style={{color}}>Ready</button>
+
+        </div>
 
     </div>
 

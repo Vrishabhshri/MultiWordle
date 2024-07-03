@@ -40,11 +40,26 @@
 
 }
 
+#ready-button-container {
+
+    /* position */
+    margin: 40px 0px 0px 0px;
+
+    /* border */
+    border: 2px solid black;
+    border-radius: 13px;
+
+    /* body */
+    height: 40px;
+    width: 70px;
+
+}
+
 #ready-button {
 
     /* scaling */
     height: 40px;
-    width: 75px;
+    width: 70px;
 
     /* text */
     font-size: 1.3rem;
@@ -58,15 +73,16 @@
     background-color: #073b4c;
 
     /* position */
-    margin: 200px 0px 0px 0px;
-
-    /* transition */
-    transition-duration: 0.3s;
+    margin: -4px 0px 0px -4px;
 
 }
 
-#ready-button:hover {
+#ready-button:active {
 
-    transform: scale(1.1);
+    transform: translateY(4px) translateX(4px);
 
 }
+
+button:focus {    
+    outline: none;    
+ }

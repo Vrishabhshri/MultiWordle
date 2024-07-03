@@ -1,5 +1,5 @@
 import React from 'react'
-import Board from '../components/chooserBoard.jsx';
+import Board from '../components/board.jsx';
 import Keyboard from '../components/keyboard';
 
 function ChooserBoard() {

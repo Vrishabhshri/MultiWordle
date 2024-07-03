@@ -39,7 +39,18 @@ io.on('connection', socket => {
     // Checking to see whether all players in current room are ready
     socket.on('all-ready', status => {
 
-        if (++rooms[status.roomID].readyCount === rooms[status.roomID].playerCount) {
+        for (let i = 0; i < rooms[status.roomID].players.length; i++) {
+
+            if (rooms[status.roomID].players[i].playerID === status.playerID && !rooms[status.roomID].players[i].ready) {
+
+                ++rooms[status.roomID].readyCount;
+                rooms[status.roomID].players[i].ready = true;
+
+            }
+
+        }
+
+        if (rooms[status.roomID].readyCount === rooms[status.roomID].playerCount) {
 
             let chosenIndex = Math.floor(Math.random() * rooms[status.roomID].playerCount);
             let chosenID = rooms[status.roomID].players[chosenIndex].playerID;
