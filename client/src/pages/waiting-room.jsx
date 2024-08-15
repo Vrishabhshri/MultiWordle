@@ -42,6 +42,8 @@ function WaitingRoom() {
   // Checks to see whether player was chosen to be chooser
   socket.on('chosen-player', chosenID => {
 
+    console.log("Reached chosen player");
+
     if (chosenID === playerID) {
 
       socket.disconnect();

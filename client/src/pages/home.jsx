@@ -13,6 +13,9 @@ export default function Home() {
     const navigate = useNavigate();
     const [IDValue, setIDValue] = useState('');
     const [nameValue, setNameValue] = useState('');
+    const [instructionsValue, setInstructionsValue] = useState('hideInstructions');
+
+    // Handlers
 
     // Handles when play button is clicked
     const handlePlayButtonClick = async () => {
@@ -31,11 +34,36 @@ export default function Home() {
         
     }
 
+    // Handles when how to play button is clicked
+    const handleHowToPlay = () => {
+
+        setInstructionsValue(instructionsValue === 'hideInstructions' ? 'showInstructions' : 'hideInstructions');
+
+    };
+
     // Generates room ID
     // TODO: Generate and actual random ID (maybe change this to happen in the server)
-    const generateRoomID = () => {
+    const generateRoomID = async () => {
 
-        return "XXVBHG";
+        let idresponse = await fetch('http://localhost:3001/generate-id', {
+
+            method: "POST"
+
+        });
+
+        if (idresponse.status === 200) {
+
+            let idresponsedata = await idresponse.json();
+
+            return idresponsedata.id;
+
+        }
+
+        else {
+
+            alert('There was a problem trying to create a room try again');
+
+        }
 
     }
 
@@ -44,7 +72,7 @@ export default function Home() {
 
         try {
 
-            let roomID = generateRoomID();
+            let roomID = await generateRoomID();
 
             // Fetch call to create a new room
             let playerInfo = await fetch(`http://localhost:3001/create-room?roomID=${roomID}&name=${name}`, {
@@ -161,15 +189,15 @@ export default function Home() {
 
             </div>
 
-            <div id="how-to-play-button">
+            <div id="how-to-play-button" onClick={handleHowToPlay}>
 
                 How to Play
 
             </div>
 
-            <div className="instructions">
+            <div className={instructionsValue}>
 
-                The game is like world and other instructions will go here...
+                The game is like wordle and other instructions will go here...
 
             </div>
 

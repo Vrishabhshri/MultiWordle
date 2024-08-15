@@ -78,7 +78,7 @@
     background-color: #073b4c;
 
     /* position */
-    margin: 200px 0px 0px 0px;
+    margin: 100px 0px 0px 0px;
 
     /* transition */
     transition-duration: 0.3s;
@@ -91,25 +91,29 @@
 
 }
 
-.instructions {
-
-    /* position */ 
-    margin: 20px 0px 0px 0px;
-
-    /* transition */
-    transition-duration: 0.4s;
+.hideInstructions {
 
     /* opacity */
     opacity: 0;
 
-    /* text */
-    font-size: 1.1rem;
+    /* transition */
+    transition-duration: 0.4s;
 
 }
 
 .showInstructions {
 
+    /* position */ 
+    margin: 20px 0px 20px 0px;
+
+    /* transition */
+    transition-duration: 0.4s;
+
+    /* opacity */
     opacity: 1;
+
+    /* text */
+    font-size: 1.1rem;
 
 }
 

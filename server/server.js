@@ -18,6 +18,7 @@ const io = new Server(server, {
 });
 
 const rooms = [];
+const usedCodes = new Set();
 
 // Room handling with sockets
 io.on('connection', socket => {
@@ -46,6 +47,8 @@ io.on('connection', socket => {
                 ++rooms[status.roomID].readyCount;
                 rooms[status.roomID].players[i].ready = true;
 
+                console.log(rooms[status.roomID]);
+
             }
 
         }
@@ -68,8 +71,9 @@ io.on('connection', socket => {
 
     })
 
+    // TODO: Handle player disconnect
     socket.on('disconnect', () => {
-        // Handle player disconnect
+
     });
 
 });
@@ -122,17 +126,37 @@ app.get('/join-room', async (req, res) => {
     
 });
 
-// Loading room data
-// app.get('/load-room-data', async (req, res) => {
+app.post('/generate-id', async (req, res) => {
 
-//     let info = req.query;
-//     let roomID = info.roomID;
+    try {
 
-//     let sendData = rooms[info.roomID].players.map(player => player.name);
+        let id;
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    
+        do {
+    
+            id = '';
+            for (let i = 0; i < 6; i++) {
+    
+                id += characters.charAt(Math.floor(Math.random() * 26));
+    
+            }
+    
+        } while (usedCodes.has(id));
+        
+        usedCodes.add(id);
 
-//     res.status(200).json({ players: sendData });
+        res.status(200).json({ id });
 
-// })
+    }
+
+    catch (err) {
+
+        res.sendStatus(500);
+
+    }
+
+})
 
 server.listen(3001, () => {
 
